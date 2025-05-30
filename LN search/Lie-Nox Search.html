@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lie Nox Search</title>
+    <style>
+        body {
+            background: url('BG.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .search-container {
+            margin-top: 15vh;
+        }
+        .logo {
+            width: 100px;
+            height: 100px;
+        }
+        input[type="text"] {
+            width: 60%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            outline: none;
+            autocomplete: off;
+            inputmode: search;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .engine-selector {
+            margin-top: 15px;
+        }
+        .quick-links {
+            margin-top: 20px;
+        }
+        .suggestions {
+            text-align: left;
+            display: none;
+            background-color: #222;
+            color: #ccc;
+            width: 60%;
+            margin: auto;
+            border-radius: 5px;
+        }
+        .suggestions div {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .suggestions div:hover {
+            background-color: #333;
+        }
+        .google-apps {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .google-apps img {
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <img src="LN.png" alt="Lie Nox Logo" class="logo"> <!-- Lie Nox Branding -->
+        <h1>Lie Nox Search</h1>
+        <input type="text" id="searchQuery" placeholder="Type here..." autocomplete="off" inputmode="search" onkeyup="showSuggestions()">
+        <div class="suggestions" id="suggestions"></div>
+        <button onclick="search()">Search</button>
+        <div class="engine-selector">
+            <label for="engine">Choose search engine:</label>
+            <select id="engine">
+                <option value="https://www.google.com/search?q=">Google</option>
+                <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+                <option value="https://www.bing.com/search?q=">Bing</option>
+                <option value="https://search.yahoo.com/search?p=">Yahoo</option>
+                <option value="https://search.brave.com/search?q=">Brave</option>
+                <option value="https://www.ask.com/web?q=">Ask.com</option>
+                <option value="https://yandex.com/search/?text=">Yandex</option>
+                <option value="https://search.naver.com/search.naver?query=">Naver</option>
+            </select>
+        </div>
+
+        <div class="quick-links">
+            <button onclick="window.location.href='https://www.youtube.com'">YouTube</button>
+            <button onclick="window.location.href='https://mail.google.com'">Gmail</button>
+        </div>
+
+        <div class="google-apps">
+            <a href="https://calendar.google.com"><img src="calendar.png" alt="Google Calendar"></a>
+            <a href="https://translate.google.com"><img src="translate.png" alt="Google Translate"></a>
+            <a href="https://drive.google.com"><img src="drive.png" alt="Google Drive"></a>
+            <a href="https://keep.google.com"><img src="keep.png" alt="Google Keep"></a>
+            <a href="https://www.google.com/maps"><img src="maps.png" alt="Google Maps"></a>
+            <a href="https://news.google.com"><img src="news.png" alt="Google News"></a>
+        </div>
+    </div>
+
+    <script>
+        function search() {
+            var query = document.getElementById("searchQuery").value;
+            var engine = document.getElementById("engine").value;
+            if (query) {
+                window.location.href = engine + encodeURIComponent(query);
+            }
+        }
+
+        document.getElementById("searchQuery").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                search();
+            }
+        });
+
+        function showSuggestions() {
+            var input = document.getElementById("searchQuery").value;
+            var suggestionsBox = document.getElementById("suggestions");
+            suggestionsBox.innerHTML = "";
+            suggestionsBox.style.display = input ? "block" : "none";
+
+            var suggestions = ["Lie Nox Linux", "Dark UI themes", "Debian customization", "Linux Mint vs Debian", "Custom Firefox start page"];
+            suggestions.forEach(s => {
+                if (s.toLowerCase().includes(input.toLowerCase())) {
+                    var div = document.createElement("div");
+                    div.innerText = s;
+                    div.onclick = function() {
+                        document.getElementById("searchQuery").value = s;
+                        suggestionsBox.style.display = "none";
+                    };
+                    suggestionsBox.appendChild(div);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
